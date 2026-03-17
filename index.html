@@ -16,7 +16,7 @@
             --warning-bg: #fff3f3;
         }
 
-        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; padding-top: 10px; color: var(--tether-navy); }
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; padding-top: 10px; color: var(--tether-navy); -webkit-text-size-adjust: none; }
         .card { background: white; padding: 15px 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 95%; max-width: 400px; box-sizing: border-box; position: relative; }
         
         .header-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; }
@@ -42,34 +42,29 @@
         .result-container { background: #fff; border-radius: 12px; border: 1px solid #f0f0f0; overflow: hidden; margin-bottom: 3px; }
         .row { display: flex; justify-content: space-between; padding: 7px 12px; border-bottom: 1px solid #f9f9f9; align-items: center; }
         .label { color: var(--tether-gray); font-size: 0.8rem; }
-        .value { font-weight: 900; color: var(--tether-navy); font-size: 1rem; text-align: right; }
+        .value { font-weight: 900; color: var(--tether-navy); font-size: 1rem; text-align: right; line-height: 1.1; }
         
+        .buy-val { display: block; font-size: 0.65rem; color: var(--tether-mint); font-weight: 600; margin-top: 2px; }
+
         .sub-row { background: #fafafa; padding: 5px 12px; display: flex; justify-content: space-between; font-size: 0.75rem; color: #888; border-bottom: 1px solid #f0f0f0; }
         .sub-val { font-weight: 800; color: var(--tether-mint); }
 
         .total-row { background: #f1f7ff; padding: 7px 12px; display: flex; justify-content: space-between; align-items: center; }
         .total-label { color: var(--tether-mint); font-weight: 800; font-size: 0.85rem; }
-        .total-value { color: var(--accent); font-size: 1.1rem; font-weight: 900; text-align: right; }
+        .total-value { color: var(--accent); font-size: 1.1rem; font-weight: 900; text-align: right; line-height: 1.1; }
         
         .margin-info { text-align: right; padding-right: 8px; margin-bottom: 8px; }
         .margin-text { font-size: 0.85rem; font-weight: 900; color: var(--tether-mint); }
 
-        /* 주의사항 영역 디자인 및 정렬 최적화 */
         .notice-card { background: var(--warning-bg); border-radius: 10px; padding: 10px; margin-top: 15px; border: 1px solid #ffeded; }
         .notice-title { font-size: 0.75rem; font-weight: 800; color: var(--accent); margin-bottom: 5px; display: flex; align-items: center; gap: 4px; padding-left: 2px; }
         .notice-content { font-size: 0.68rem; color: #777; line-height: 1.5; font-weight: 500; }
-        
-        /* 구분점(•)을 타이틀에 맞추기 위한 정렬 */
         .notice-content ul { margin: 0; padding-left: 14px; list-style-type: none; }
         .notice-content li { position: relative; margin-bottom: 3px; padding-left: 12px; }
         .notice-content li::before { content: '•'; position: absolute; left: 0; color: #ccc; }
 
         .copyright { margin-top: 12px; font-size: 0.75rem; color: #bbb; text-align: right; border-top: 1px solid #eee; padding-top: 8px; font-weight: 600; }
     </style>
-
-<link rel="apple-touch-icon" href="icon.png">
-<link rel="manifest" href="manifest.json">
-
 </head>
 <body>
 
@@ -101,7 +96,13 @@
         <div class="section-title">Step 1. 기본 재참여</div>
     </div>
     <div class="result-container">
-        <div class="row"><span class="label">SUT 필요수량</span><span class="value" id="baseSut">0 SUT</span></div>
+        <div class="row">
+            <span class="label">SUT 필요수량</span>
+            <span class="value">
+                <span id="baseSut">0 SUT</span>
+                <span id="baseBuy" class="buy-val">(매수: 0 USDT)</span>
+            </span>
+        </div>
         <div class="row"><span class="label">신용대금 승인</span><span class="value" id="app_base">0 USDT</span></div>
         <div class="sub-row"><span>일지급: <span id="d_base" class="sub-val">0</span></span><span>주정산: <span id="w_base" class="sub-val">0</span></span></div>
     </div>
@@ -114,7 +115,13 @@
     <div class="result-container">
         <div class="row"><span class="label">총 승인액</span><span class="value" id="app_50">0 USDT</span></div>
         <div class="sub-row"><span>일지급: <span id="d_50" class="sub-val">0</span></span><span>주정산: <span id="w_50" class="sub-val">0</span></span></div>
-        <div class="total-row"><span class="total-label">SUT 필요수량 합계</span><span class="total-value" id="total50">0 SUT</span></div>
+        <div class="total-row">
+            <span class="total-label">SUT 필요수량 합계</span>
+            <span class="total-value">
+                <span id="total50">0 SUT</span>
+                <span id="total50Buy" class="buy-val">(매수: 0 USDT)</span>
+            </span>
+        </div>
     </div>
     <div class="margin-info"><span class="margin-text" id="m_50">순마진율: +0%</span></div>
 
@@ -125,7 +132,13 @@
     <div class="result-container">
         <div class="row"><span class="label">총 승인액</span><span class="value" id="app_100">0 USDT</span></div>
         <div class="sub-row"><span>일지급: <span id="d_100" class="sub-val">0</span></span><span>주정산: <span id="w_100" class="sub-val">0</span></span></div>
-        <div class="total-row"><span class="total-label">SUT 필요수량 합계</span><span class="total-value" id="total100">0 SUT</span></div>
+        <div class="total-row">
+            <span class="total-label">SUT 필요수량 합계</span>
+            <span class="total-value">
+                <span id="total100">0 SUT</span>
+                <span id="total100Buy" class="buy-val">(매수: 0 USDT)</span>
+            </span>
+        </div>
     </div>
     <div class="margin-info"><span class="margin-text" id="m_100">순마진율: +0%</span></div>
 
@@ -165,11 +178,13 @@
         
         if (reserveUsdt === 0 || creditPrice === 0) return;
 
-        const baseSutQuantity = (reserveUsdt / creditPrice) * 1.2; 
+        // Step 1 계산
+        const baseSutQuantity = (reserveUsdt * 1.2) / creditPrice;
         const appBase = reserveUsdt * 2.4;
         
         const updateUI = (app, totalSut, ids) => {
-            const principal = reserveUsdt + (totalSut * marketPrice); 
+            const sutCostUsdt = totalSut * marketPrice;
+            const principal = reserveUsdt + sutCostUsdt; 
             const margin = ((app / principal) - 1) * 100;
             const daily = app / 365;
 
@@ -177,17 +192,28 @@
             document.getElementById(ids.daily).innerText = f(daily, 3);
             document.getElementById(ids.weekly).innerText = f(daily * 7, 2);
             document.getElementById(ids.margin).innerText = `순마진율: +${f(margin, 1)}%`;
-            if(ids.total) document.getElementById(ids.total).innerText = f(totalSut, 1) + ' SUT';
+            
+            if(ids.total) {
+                document.getElementById(ids.total).innerText = f(totalSut, 1) + ' SUT';
+                document.getElementById(ids.total + 'Buy').innerText = `(매수: ${f(sutCostUsdt, 1)} USDT)`;
+            }
+            if(ids.baseBuy) {
+                document.getElementById(ids.baseBuy).innerText = `(매수: ${f(sutCostUsdt, 1)} USDT)`;
+            }
         };
 
         document.getElementById('baseSut').innerText = f(baseSutQuantity, 1) + ' SUT';
-        updateUI(appBase, baseSutQuantity, {app: 'app_base', daily: 'd_base', weekly: 'w_base', margin: 'm_base'});
+        updateUI(appBase, baseSutQuantity, {app: 'app_base', daily: 'd_base', weekly: 'w_base', margin: 'm_base', baseBuy: 'baseBuy'});
 
+        // Step 2 계산
         const contractableBonusA = Math.floor((reserveUsdt * ratioA) / 100) * 100;
-        updateUI(appBase + (contractableBonusA * 1.2), baseSutQuantity + Math.ceil(baseSutQuantity * ratioA), {app: 'app_50', daily: 'd_50', weekly: 'w_50', margin: 'm_50', total: 'total50'});
+        const sutBonusA = (contractableBonusA * 1.2) / creditPrice;
+        updateUI(appBase + (contractableBonusA * 1.2 * 2), baseSutQuantity + sutBonusA, {app: 'app_50', daily: 'd_50', weekly: 'w_50', margin: 'm_50', total: 'total50'});
 
+        // Step 3 계산
         const contractableBonusB = Math.floor((reserveUsdt * ratioB) / 100) * 100;
-        updateUI(appBase + (contractableBonusB * 1.2), baseSutQuantity + Math.ceil(baseSutQuantity * ratioB), {app: 'app_100', daily: 'd_100', weekly: 'w_100', margin: 'm_100', total: 'total100'});
+        const sutBonusB = (contractableBonusB * 1.2) / creditPrice;
+        updateUI(appBase + (contractableBonusB * 1.2 * 2), baseSutQuantity + sutBonusB, {app: 'app_100', daily: 'd_100', weekly: 'w_100', margin: 'm_100', total: 'total100'});
     }
     calculate();
 </script>
