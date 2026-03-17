@@ -44,6 +44,7 @@
         .label { color: var(--tether-gray); font-size: 0.8rem; }
         .value { font-weight: 900; color: var(--tether-navy); font-size: 1rem; text-align: right; line-height: 1.1; }
         
+        /* 매수 비용 표시 스타일 */
         .buy-val { display: block; font-size: 0.65rem; color: var(--tether-mint); font-weight: 600; margin-top: 2px; }
 
         .sub-row { background: #fafafa; padding: 5px 12px; display: flex; justify-content: space-between; font-size: 0.75rem; color: #888; border-bottom: 1px solid #f0f0f0; }
@@ -178,7 +179,7 @@
         
         if (reserveUsdt === 0 || creditPrice === 0) return;
 
-        // Step 1 계산
+        // [기본 재참여] 2.4배 승인
         const baseSutQuantity = (reserveUsdt * 1.2) / creditPrice;
         const appBase = reserveUsdt * 2.4;
         
@@ -205,15 +206,17 @@
         document.getElementById('baseSut').innerText = f(baseSutQuantity, 1) + ' SUT';
         updateUI(appBase, baseSutQuantity, {app: 'app_base', daily: 'd_base', weekly: 'w_base', margin: 'm_base', baseBuy: 'baseBuy'});
 
-        // Step 2 계산
+        // [Right 보상 A] 1.2배 승인 로직 적용
         const contractableBonusA = Math.floor((reserveUsdt * ratioA) / 100) * 100;
-        const sutBonusA = (contractableBonusA * 1.2) / creditPrice;
-        updateUI(appBase + (contractableBonusA * 1.2 * 2), baseSutQuantity + sutBonusA, {app: 'app_50', daily: 'd_50', weekly: 'w_50', margin: 'm_50', total: 'total50'});
+        const sutBonusA = (contractableBonusA * 1.2) / creditPrice; // SUT만 페어링
+        const appBonusA = contractableBonusA * 1.2; 
+        updateUI(appBase + appBonusA, baseSutQuantity + sutBonusA, {app: 'app_50', daily: 'd_50', weekly: 'w_50', margin: 'm_50', total: 'total50'});
 
-        // Step 3 계산
+        // [Right 보상 B] 1.2배 승인 로직 적용
         const contractableBonusB = Math.floor((reserveUsdt * ratioB) / 100) * 100;
         const sutBonusB = (contractableBonusB * 1.2) / creditPrice;
-        updateUI(appBase + (contractableBonusB * 1.2 * 2), baseSutQuantity + sutBonusB, {app: 'app_100', daily: 'd_100', weekly: 'w_100', margin: 'm_100', total: 'total100'});
+        const appBonusB = contractableBonusB * 1.2;
+        updateUI(appBase + appBonusB, baseSutQuantity + sutBonusB, {app: 'app_100', daily: 'd_100', weekly: 'w_100', margin: 'm_100', total: 'total100'});
     }
     calculate();
 </script>
